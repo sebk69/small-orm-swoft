@@ -1,0 +1,15 @@
+{
+  "name": "sebk/small-orm-swoft",
+  "type": "library",
+  "description": "swoft implemntation for small-orm",
+  "license": "GPL-3.0-only",
+  "require": {
+    "swoft/db": "~2.0.0",
+    "sebk/small-orm-core": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sebk\\SmallOrmSwoft\\": "src/"
+    }
+  }
+}
