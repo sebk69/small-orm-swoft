@@ -1,5 +1,10 @@
 <?php declare(strict_types=1);
 
+/**
+ * This file is a part of sebk/small-orm-swoft
+ * Copyright 2021 - Sébastien Kus
+ * Under GNU GPL V3 licence
+ */
 
 namespace Sebk\SmallOrmSwoft;
 
@@ -8,6 +13,7 @@ use Sebk\SmallOrmSwoft\Compatibility\Kernel;
 use Sebk\SmallOrmSWoft\Factory\Dao;
 use Sebk\SmallOrmSWoft\Generator\DaoGenerator;
 use Sebk\SmallOrmSwoft\Factory\Connections;
+use Sebk\SmallOrmSwoft\Layers\Layers;
 use Swoft\Bean\Container;
 use Swoft\Helper\ComposerJSON;
 use function bean;
@@ -41,6 +47,11 @@ class AutoLoader extends SwoftComponent
             ],
             'sebk_small_orm_generator' => [
                 'class' => DaoGenerator::class,
+                '__option' => ['alias' => 'Sebk\SmallOrmSWoft\Generator\DaoGenerator']
+            ],
+            'sebk_small_orm_layers' => [
+                'class' => Layers::class,
+                '__option' => ['alias' => 'Sebk\SmallOrmSwoft\Layers\Layers']
             ],
         ];
     }
