@@ -4,10 +4,10 @@
 namespace Sebk\SmallOrmSwoft;
 
 
-use Sebk\SmallOrmCore\Factory\Connections;
-use Sebk\SmallOrmCore\Factory\Dao;
-use Sebk\SmallOrmCore\Factory\Validator;
-use Sebk\SmallOrmCore\Generator\DaoGenerator;
+use Sebk\SmallOrmSwoft\Compatibility\Kernel;
+use Sebk\SmallOrmSWoft\Factory\Dao;
+use Sebk\SmallOrmSWoft\Generator\DaoGenerator;
+use Sebk\SmallOrmSwoft\Factory\Connections;
 use Swoft\Bean\Container;
 use Swoft\Helper\ComposerJSON;
 use function bean;
@@ -27,10 +27,20 @@ class AutoLoader extends SwoftComponent
     public function beans(): array
     {
         return [
+            'kernel' => [
+                'class' => Kernel::class
+            ],
             'sebk_small_orm_connections' => [
                 'class' => Connections::class,
-                'config' => bean('sebk_small_orm.connexions'),
                 'defaultConnection' => 'default',
+                '__option' => ['alias' => 'Sebk\SmallOrmSwoft\Factory\Connections']
+            ],
+            'sebk_small_orm_dao' => [
+                'class' => Dao::class,
+                '__option' => ['alias' => 'Sebk\SmallOrmSwoft\Factory\Dao']
+            ],
+            'sebk_small_orm_generator' => [
+                'class' => DaoGenerator::class,
             ],
         ];
     }

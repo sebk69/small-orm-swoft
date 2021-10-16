@@ -2,16 +2,30 @@
 
 namespace Sebk\SmallOrmSwoft\Factory;
 
+/**
+ * Decorator to expose sebk_small_orm_connections service
+ */
 class Connections
 {
     /** @var \Sebk\SmallOrmCore\Factory\Connections */
-    protected $connections = null;
+    protected static $connections = null;
 
     /** @var array */
     public $config;
-    
+
     /** @var string */
     public $defaultConnection;
+
+    /**
+     * Get the instance for core
+     * @return \Sebk\SmallOrmCore\Factory\Dao
+     */
+    public function getCoreInstance(): \Sebk\SmallOrmCore\Factory\Connections
+    {
+        $this->initCore();
+
+        return self::$connections;
+    }
 
     /**
      * Get a connection
@@ -21,7 +35,8 @@ class Connections
      */
     public function get($connectionName = 'default')
     {
-        $this->create();
+        $this->initCore();
+
         return $this->connections->get($connectionName);
     }
 
@@ -31,17 +46,19 @@ class Connections
      */
     public function getNamesAsArray()
     {
-        $this->create();
+        $this->initCore();
+
         return $this->connections->getNamesAsArray();
     }
 
     /**
      * Create core connections factory if not exists
      */
-    private function create()
+    private function initCore()
     {
-        if ($this->connections === null) {
-            $this->connections = new \Sebk\SmallOrmCore\Factory\Connections($this->config, $this->defaultConnection);
+        if (self::$connections === null) {
+            $this->config = \Swoft::getBean("config")->get("sebk_small_orm.connections");
+            self::$connections = new \Sebk\SmallOrmCore\Factory\Connections($this->config, $this->defaultConnection);
         }
     }
 }
