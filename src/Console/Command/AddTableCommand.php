@@ -38,10 +38,12 @@ class AddTableCommand
 
         if ($bundle == null) {
             output()->writeln('--bundle option is mandatory');
+            exit;
         }
 
         if ($dbTableName == null) {
             output()->writeln('--table option is mandatory');
+            exit;
         }
 
         // add selected tables

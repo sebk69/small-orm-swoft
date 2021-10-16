@@ -19,7 +19,7 @@ use function input;
 use function output;
 
 /**
- * Class AddTableCommand
+ * Class LayersExecuteCommand
  *
  * @since 2.0
  *
