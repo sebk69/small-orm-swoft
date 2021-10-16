@@ -1,37 +1,33 @@
 <?php
 
+/**
+ * This file is a part of sebk/small-orm-swoft
+ * Copyright 2021 - Sébastien Kus
+ * Under GNU GPL V3 licence
+ */
+
 namespace Sebk\SmallOrmSwoft\Generator;
 
+use Sebk\SmallOrmSwoft\Compatibility\ServiceDecorator;
 use Sebk\SmallOrmSwoft\Compatibility\SymfonyContainer;
 
 /**
  * Decorator for sebk_small_orm_generator service
  */
-class DaoGenerator
+class DaoGenerator extends ServiceDecorator
 {
-    /**
-     * @var \Sebk\SmallOrmCore\Generator\DaoGenerator
-     */
-    protected static $generator;
 
     /**
-     * Redirect calls to core dao factory
-     * @param string $name
-     * @param array $arguments
-     * @return mixed
+     * Initialize core instance
      */
-    public function __call(string $name, array $arguments)
+    public function initCore()
     {
-        if (self::$generator === null) {
-            self::$generator = new \Sebk\SmallOrmCore\Generator\DaoGenerator(
-                bean('sebk_small_orm_dao')->getCoreInstance(),
-                bean('sebk_small_orm_connections')->getCoreInstance(),
-                SymfonyContainer::getInstance(),
-                config("sebk_small_orm.bundles"),
-            );
-        }
-
-        return self::$generator->$name(...$arguments);
+        return new \Sebk\SmallOrmCore\Generator\DaoGenerator(
+            bean('sebk_small_orm_dao')->getCoreInstance(),
+            bean('sebk_small_orm_connections')->getCoreInstance(),
+            SymfonyContainer::getInstance(),
+            config("sebk_small_orm.bundles"),
+        );
     }
 
 }

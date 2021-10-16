@@ -1,11 +1,9 @@
 <?php declare(strict_types=1);
+
 /**
- * This file is part of Swoft.
- *
- * @link     https://swoft.org
- * @document https://swoft.org/docs
- * @contact  group@swoft.org
- * @license  https://github.com/swoft-cloud/swoft/blob/master/LICENSE
+ * This file is a part of sebk/small-orm-swoft
+ * Copyright 2021 - Sébastien Kus
+ * Under GNU GPL V3 licence
  */
 
 namespace Sebk\SmallOrmSwoft\Console\Command;
@@ -44,14 +42,6 @@ class AddTableCommand
 
         if ($dbTableName == null) {
             output()->writeln('--table option is mandatory');
-        }
-
-        if (input()->hasOpt("h") || input()->hasOpt("help")) {
-            output()->writeln('Generate dao and model classes by reverse ingeniering from database for a table
---connection : connection name (default if no option)
---bundle : bundle name (mandatory)
---table : table name (mandatory), "all" for create all tables dao
-');
         }
 
         // add selected tables

@@ -1,11 +1,18 @@
 <?php
 
+/**
+ * This file is a part of sebk/small-orm-swoft
+ * Copyright 2021 - Sébastien Kus
+ * Under GNU GPL V3 licence
+ */
+
 namespace Sebk\SmallOrmSwoft\Compatibility;
 
 use Swoft\Bean\Container;
 
 class SymfonyContainer
 {
+
     /**
      * @var SymfonyContainer
      */
@@ -49,6 +56,10 @@ class SymfonyContainer
      */
     public function __call(string $name, array $arguments)
     {
+        if ($this->container->$name(...$arguments) instanceof ServiceDecorator) {
+            return $this->container->$name(...$arguments)->getCoreInstance();
+        }
+
         return $this->container->$name(...$arguments);
     }
 }

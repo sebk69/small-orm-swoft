@@ -1,64 +1,34 @@
 <?php
 
+/**
+ * This file is a part of sebk/small-orm-swoft
+ * Copyright 2021 - Sébastien Kus
+ * Under GNU GPL V3 licence
+ */
+
 namespace Sebk\SmallOrmSwoft\Factory;
+
+use Sebk\SmallOrmSwoft\Compatibility\ServiceDecorator;
 
 /**
  * Decorator to expose sebk_small_orm_connections service
+ * @method get($connectionName = 'default')
+ * @method getNamesAsArray()
  */
-class Connections
+class Connections extends ServiceDecorator
 {
-    /** @var \Sebk\SmallOrmCore\Factory\Connections */
-    protected static $connections = null;
-
-    /** @var array */
-    public $config;
 
     /** @var string */
     public $defaultConnection;
 
     /**
-     * Get the instance for core
-     * @return \Sebk\SmallOrmCore\Factory\Dao
+     * Initialize core instance
      */
-    public function getCoreInstance(): \Sebk\SmallOrmCore\Factory\Connections
+    public function initCore()
     {
-        $this->initCore();
-
-        return self::$connections;
-    }
-
-    /**
-     * Get a connection
-     * @param string $connectionName
-     * @return \Sebk\SmallOrmCore\Database\Connection
-     * @throws \Sebk\SmallOrmCore\Factory\ConfigurationException
-     */
-    public function get($connectionName = 'default')
-    {
-        $this->initCore();
-
-        return $this->connections->get($connectionName);
-    }
-
-    /**
-     * Get list of connections names
-     * @return array
-     */
-    public function getNamesAsArray()
-    {
-        $this->initCore();
-
-        return $this->connections->getNamesAsArray();
-    }
-
-    /**
-     * Create core connections factory if not exists
-     */
-    private function initCore()
-    {
-        if (self::$connections === null) {
-            $this->config = \Swoft::getBean("config")->get("sebk_small_orm.connections");
-            self::$connections = new \Sebk\SmallOrmCore\Factory\Connections($this->config, $this->defaultConnection);
-        }
+        return new \Sebk\SmallOrmCore\Factory\Connections(
+            config("sebk_small_orm.connections"),
+            $this->defaultConnection
+        );
     }
 }
