@@ -8,13 +8,13 @@
 
 namespace Sebk\SmallOrmSwoft\Generator;
 
-use Sebk\SmallOrmSwoft\Compatibility\ServiceDecorator;
+use Sebk\SmallOrmSwoft\Compatibility\CoreServiceDecorator;
 use Sebk\SmallOrmSwoft\Compatibility\SymfonyContainer;
 
 /**
  * Decorator for sebk_small_orm_generator service
  */
-class DaoGenerator extends ServiceDecorator
+class DaoGenerator extends CoreServiceDecorator
 {
 
     /**

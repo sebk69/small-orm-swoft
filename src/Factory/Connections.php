@@ -8,14 +8,14 @@
 
 namespace Sebk\SmallOrmSwoft\Factory;
 
-use Sebk\SmallOrmSwoft\Compatibility\ServiceDecorator;
+use Sebk\SmallOrmSwoft\Compatibility\CoreServiceDecorator;
 
 /**
  * Decorator to expose sebk_small_orm_connections service
  * @method get($connectionName = 'default')
  * @method getNamesAsArray()
  */
-class Connections extends ServiceDecorator
+class Connections extends CoreServiceDecorator
 {
 
     /** @var string */

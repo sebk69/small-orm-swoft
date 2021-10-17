@@ -21,7 +21,7 @@ class SymfonyContainer
     /**
      * @var Container
      */
-    protected $container;
+    protected $swoftContainer;
 
     /**
      * Can't create object : use getInstance()
@@ -41,7 +41,7 @@ class SymfonyContainer
     {
         if (self::$symfonyContainerInstance === null) {
             $symfonyContainer = new self();
-            $symfonyContainer->container = Container::getInstance();
+            $symfonyContainer->swoftContainer = Container::getInstance();
             self::$symfonyContainerInstance = $symfonyContainer;
         }
 
@@ -56,10 +56,15 @@ class SymfonyContainer
      */
     public function __call(string $name, array $arguments)
     {
-        if ($this->container->$name(...$arguments) instanceof ServiceDecorator) {
-            return $this->container->$name(...$arguments)->getCoreInstance();
+        // Get swoft service
+        $result = $this->swoftContainer->$name(...$arguments);
+        
+        // It is a core service decorator ?
+        if ($result instanceof CoreServiceDecorator) {
+            // Then we return the core service instance
+            $result = $result->getCoreInstance();
         }
 
-        return $this->container->$name(...$arguments);
+        return $result;
     }
 }

@@ -8,7 +8,7 @@
 
 namespace Sebk\SmallOrmSwoft\Factory;
 
-use Sebk\SmallOrmSwoft\Compatibility\ServiceDecorator;
+use Sebk\SmallOrmSwoft\Compatibility\CoreServiceDecorator;
 use Sebk\SmallOrmSwoft\Compatibility\SymfonyContainer;
 
 /**
@@ -24,7 +24,7 @@ use Sebk\SmallOrmSwoft\Compatibility\SymfonyContainer;
  * @method getFile($connectionNameOfDao, $bundle, $model, $evenIfNotFound = false)
  * @method getModelFile($connectionNameOfDao, $bundle, $model, $evenIfNotFound = false)
  */
-class Dao extends ServiceDecorator
+class Dao extends CoreServiceDecorator
 {
 
     /**

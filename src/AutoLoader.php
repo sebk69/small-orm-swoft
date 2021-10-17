@@ -9,8 +9,9 @@
 namespace Sebk\SmallOrmSwoft;
 
 
-use Sebk\SmallOrmSwoft\Compatibility\Kernel;
+use Sebk\SmallOrmSwoft\Compatibility\SymfonyKernel;
 use Sebk\SmallOrmSWoft\Factory\Dao;
+use Sebk\SmallOrmSwoft\Factory\Validator;
 use Sebk\SmallOrmSWoft\Generator\DaoGenerator;
 use Sebk\SmallOrmSwoft\Factory\Connections;
 use Sebk\SmallOrmSwoft\Layers\Layers;
@@ -34,7 +35,7 @@ class AutoLoader extends SwoftComponent
     {
         return [
             'kernel' => [
-                'class' => Kernel::class
+                'class' => SymfonyKernel::class
             ],
             'sebk_small_orm_connections' => [
                 'class' => Connections::class,
@@ -52,6 +53,10 @@ class AutoLoader extends SwoftComponent
             'sebk_small_orm_layers' => [
                 'class' => Layers::class,
                 '__option' => ['alias' => 'Sebk\SmallOrmSwoft\Layers\Layers']
+            ],
+            'sebk_small_orm_validator' => [
+                'class' => Validator::class,
+                '__option' => ['alias' => 'Sebk\SmallOrmSwoft\Factory\Validator']
             ],
         ];
     }

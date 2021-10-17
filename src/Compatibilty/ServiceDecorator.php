@@ -8,7 +8,7 @@
 
 namespace Sebk\SmallOrmSwoft\Compatibility;
 
-abstract class ServiceDecorator
+abstract class CoreServiceDecorator
 {
     protected static $coreInstance = [];
 

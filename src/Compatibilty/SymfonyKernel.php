@@ -8,7 +8,7 @@
 
 namespace Sebk\SmallOrmSwoft\Compatibility;
 
-class Kernel
+class SymfonyKernel
 {
     public $swoft = true;
 
