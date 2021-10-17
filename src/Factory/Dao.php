@@ -13,7 +13,7 @@ use Sebk\SmallOrmSwoft\Compatibility\SymfonyContainer;
 
 /**
  * Decorator for sebk_small_orm_dao service
- * @method get($bundle, $model)
+ * @method get($bundle, $model, $useConnection = null)
  * @method reset()
  * @method mock(string $bundle, string $dao, string $class)
  * @method getDaoDir($bundle, $connection)

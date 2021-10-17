@@ -9,6 +9,7 @@
 namespace Sebk\SmallOrmSwoft;
 
 
+use Sebk\SmallOrmCore\Database\SwoftPool;
 use Sebk\SmallOrmSwoft\Compatibility\SymfonyKernel;
 use Sebk\SmallOrmSWoft\Factory\Dao;
 use Sebk\SmallOrmSwoft\Factory\Validator;
@@ -36,6 +37,9 @@ class AutoLoader extends SwoftComponent
         return [
             'kernel' => [
                 'class' => SymfonyKernel::class
+            ],
+            'db' => [
+                'class' => SwoftPool::class
             ],
             'sebk_small_orm_connections' => [
                 'class' => Connections::class,

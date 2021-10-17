@@ -26,6 +26,7 @@ class Connections extends CoreServiceDecorator
      */
     public function initCore()
     {
+        \Sebk\SmallOrmCore\Factory\Connections::$namespaces[] = '\Sebk\SmallOrmSwoft\Database\\';
         return new \Sebk\SmallOrmCore\Factory\Connections(
             config("sebk_small_orm.connections"),
             $this->defaultConnection
