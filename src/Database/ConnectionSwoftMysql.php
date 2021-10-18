@@ -21,6 +21,8 @@ class ConnectionSwoftMysql extends AbstractConnection
     /** @var SwoftPool */
     protected $pool;
 
+    protected $transactionConnection;
+
     public function __construct($dbType, $host, $database, $user, $password, $encoding, $createDatabase = false)
     {
         $this->database = new SwoftDatabase($database, $host, $user, $password, $encoding);
@@ -49,7 +51,15 @@ class ConnectionSwoftMysql extends AbstractConnection
      */
     public function execute($sql, $params = array(), $retry = false)
     {
-        $connexion = $this->connect();
+        if (strtolower($sql) == "start transaction") {
+            $this->transactionConnection = $connexion = $this->connect();
+        } elseif ($this->transactionInUse) {
+            $connexion = $this->transactionConnection;
+        } else {
+            $connexion = $this->connect();
+        }
+
+
         $statement = $connexion->getPdo()->prepare($sql);
 
         foreach ($params as $param => $value) {
