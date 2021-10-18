@@ -16,3 +16,7 @@ Require the package with composer:
 ```
 composer require sebk/small-orm-swoft
 ```
+
+## Documentation
+
+See [documentation]: https://small-iceberg.dev/index.php/Small-orm-swoft
