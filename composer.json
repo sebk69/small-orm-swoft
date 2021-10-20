@@ -3,15 +3,16 @@
   "type": "library",
   "description": "Swoft implementation for small-orm",
   "license": "GPL-3.0-only",
-  "require": {
-    "sebk/small-orm-core": "dev-master"
-  },
   "authors": [
     {
       "name": "Sébasttien Kus",
       "email": "seb@small-iceberg.dev"
-    }
+    },
   ],
+  "require": {
+    "swoft/framework": "~2.0.0",
+    "sebk/small-orm-core": "1.*"
+  },
   "autoload": {
     "psr-4": {
       "Sebk\\SmallOrmSwoft\\": "src/"
