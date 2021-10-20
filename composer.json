@@ -7,7 +7,7 @@
     {
       "name": "Sébasttien Kus",
       "email": "seb@small-iceberg.dev"
-    },
+    }
   ],
   "require": {
     "swoft/framework": "~2.0.0",
