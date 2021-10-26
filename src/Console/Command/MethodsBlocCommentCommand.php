@@ -51,7 +51,7 @@ class MethodsBlocCommentCommand
             $daoGenrator->createAtModelMethods($daoName);
         } else {
             // All files
-            foreach(scandir($this->getContainer()->get("sebk_small_orm_dao")->getDaoDir($bundle, $connectionName)) as $file) {
+            foreach(scandir(bean("sebk_small_orm_dao")->getDaoDir($bundle, $connectionName)) as $file) {
                 if(substr($file, strlen($file) - 4) == ".php") {
                     $daoName = substr($file, 0, strlen($file) - 4);
                     $daoGenrator->createAtModelMethods($daoName);
