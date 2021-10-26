@@ -40,6 +40,7 @@ class ConnectionSwoftRedis extends AbstractConnection
                 return $this->get($params["key"]);
             case "set":
                 $this->set($params["key"], isset($params["value"]) ? $params["value"] : "");
+                return null;
             default:
                 throw new \Exception("Redis instruction not found ! ($sql)");
         }
@@ -48,19 +49,24 @@ class ConnectionSwoftRedis extends AbstractConnection
     /**
      * Get value of a key
      * @param mixed $fullkey
-     * @return mixed
+     * @return array
      */
-    protected function get(array $keys): \stdClass
+    protected function get(array $fullkey): array
     {
-        if (count($keys) == 0) {
+        if (count($fullkey) == 0) {
             throw new \Exception("Redis instruction get with empty key bag");
         }
-        
-        if (count($keys) == 1) {
-            return [json_decode(Redis::get($fullkey), false)];
+
+        if (count($fullkey) == 1) {
+            return [json_decode(Redis::get($fullkey[0]), true)];
         }
-        
-        return json_decode(Redis::mget($fullkey), false);
+
+        $result = [];
+        foreach (Redis::mget($fullkey) as $item) {
+            $result[] = json_decode($item, true);
+        }
+
+        return $result;
     }
 
     /**
@@ -69,9 +75,20 @@ class ConnectionSwoftRedis extends AbstractConnection
      * @param $value
      * @return $this
      */
-    protected function set(string $fullkey, $value)
+    protected function set(array $fullkey, array $value)
     {
-        Redis::set($fullkey, json_encode($value));
+        dump($fullkey);
+        dump($value);
+        $result = true;
+        foreach ($fullkey as $i => $key) {
+            if (!Redis::set($key, json_encode($value[$i]))) {
+                $result = false;
+            }
+        }
+
+        if (!$result) {
+            throw new \Exception("Redis set failed !");
+        }
         
         return $this;
     }
@@ -83,7 +100,9 @@ class ConnectionSwoftRedis extends AbstractConnection
      */
     protected function del(string $fullkey)
     {
-        Redis::del($fullkey);
+        if (!Redis::del($fullkey)) {
+            throw new \Exception("Redis del failed !");
+        }
         
         return $this;
     }
