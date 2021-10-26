@@ -1,7 +1,7 @@
 <?php
 
 /**
- * This file is a part of sebk/small-orm-core
+ * This file is a part of sebk/small-orm-swoft
  * Copyright 2021 - Sébastien Kus
  * Under GNU GPL V3 licence
  */
@@ -77,8 +77,6 @@ class ConnectionSwoftRedis extends AbstractConnection
      */
     protected function set(array $fullkey, array $value)
     {
-        dump($fullkey);
-        dump($value);
         $result = true;
         foreach ($fullkey as $i => $key) {
             if (!Redis::set($key, json_encode($value[$i]))) {
