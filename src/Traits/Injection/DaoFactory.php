@@ -6,7 +6,7 @@
  * Under GNU GPL V3 licence
  */
 
-namespace Sebk\SmallOrmSwoft\Trait\Injection;
+namespace Sebk\SmallOrmSwoft\Traits\Injection;
 
 use Sebk\SmallOrmSwoft\Factory\Dao;
 use Swoft\Bean\Annotation\Mapping\Inject;

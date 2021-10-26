@@ -11,7 +11,7 @@
   ],
   "require": {
     "swoft/framework": "~2.0.0",
-    "sebk/small-orm-core": "1.*"
+    "sebk/small-orm-core": ">1.4.*"
   },
   "autoload": {
     "psr-4": {
