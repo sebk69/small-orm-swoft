@@ -21,8 +21,6 @@ class ConnectionSwoftMysql extends AbstractConnection
     /** @var SwoftPool */
     protected $pool;
 
-    protected $transactionConnection;
-
     public function __construct($dbType, $host, $database, $user, $password, $encoding, $createDatabase = false)
     {
         $this->database = new SwoftDatabase($database, $host, $user, $password, $encoding);
@@ -49,16 +47,13 @@ class ConnectionSwoftMysql extends AbstractConnection
      * @return mixed
      * @throws ConnectionException
      */
-    public function execute($sql, $params = array(), $retry = false)
+    public function execute($sql, $params = array(), $retry = false, $forceConnection = null)
     {
-        if (strtolower($sql) == "start transaction") {
-            $this->transactionConnection = $connexion = $this->connect();
-        } elseif ($this->transactionInUse) {
-            $connexion = $this->transactionConnection;
+        if ($forceConnection) {
+            $connexion = $forceConnection;
         } else {
             $connexion = $this->connect();
         }
-
 
         $statement = $connexion->getPdo()->prepare($sql);
 
@@ -81,12 +76,9 @@ class ConnectionSwoftMysql extends AbstractConnection
      */
     public function startTransaction()
     {
-        if($this->getTransactionInUse()) {
-            throw new TransactionException("Transaction already started");
-        }
+        $connexion = $this->connect();
 
-        $this->execute("START TRANSACTION");
-        $this->transactionInUse = true;
+        $this->execute("START TRANSACTION", null, null, $connexion);
 
         return $this;
     }
@@ -97,15 +89,9 @@ class ConnectionSwoftMysql extends AbstractConnection
      * @throws ConnectionException
      * @throws TransactionException
      */
-    public function commit()
+    public function commit($connection = null)
     {
-        if(!$this->getTransactionInUse()) {
-            throw new TransactionException("Transaction not started");
-        }
-
-        $this->execute("COMMIT");
-
-        $this->transactionInUse = false;
+        $this->execute("COMMIT", null, null, $connexion);
 
         return $this;
     }
@@ -116,15 +102,9 @@ class ConnectionSwoftMysql extends AbstractConnection
      * @throws ConnectionException
      * @throws TransactionException
      */
-    public function rollback()
+    public function rollback($connection = null)
     {
-        if(!$this->getTransactionInUse()) {
-            throw new TransactionException("Transaction not started");
-        }
-
-        $this->execute("ROLLBACK");
-
-        $this->transactionInUse = false;
+        $this->execute("ROLLBACK", null, null, $connexion);
 
         return $this;
     }
@@ -133,8 +113,10 @@ class ConnectionSwoftMysql extends AbstractConnection
      * Get last insert id
      * @return int
      */
-    public function lastInsertId()
+    public function lastInsertId($connection = null)
     {
-        return $this->pdo->lastInsertId();
+        $result = $this->execute("SELECT LAST_INSERT_ID() id", [], null, $connection);
+
+        return $result[0]["id"];
     }
 }

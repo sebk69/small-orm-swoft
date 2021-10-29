@@ -30,7 +30,7 @@ class ConnectionSwoftRedis extends AbstractConnection
      * @param bool $retry
      * @return mixed
      */
-    public function execute($sql, $params = array(), $retry = false) {
+    public function execute($sql, $params = array(), $retry = false, $forceConnection = null) {
         if (!isset($params["key"])) {
             throw new \Exception("Fail to query redis : \$param['key'] must be defined");
         }
