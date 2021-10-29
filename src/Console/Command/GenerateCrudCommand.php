@@ -9,11 +9,6 @@
 namespace Sebk\SmallOrmSwoft\Console\Command;
 
 use Sebk\SmallOrmCore\Dao\AbstractDao;
-use Sebk\SmallOrmCore\Dao\Field;
-use Sebk\SmallOrmCore\Generator\Config;
-use Sebk\SmallOrmCore\Generator\DaoGenerator;
-use Sebk\SmallOrmCore\Generator\DbGateway;
-use Sebk\SmallOrmSwoft\Compatibility\SymfonyContainer;
 use Sebk\SmallOrmSwoft\Traits\Injection\DaoFactory;
 use Swoft\Console\Annotation\Mapping\Command;
 use Swoft\Console\Annotation\Mapping\CommandMapping;
@@ -37,6 +32,15 @@ class GenerateCrudCommand
      */
     public function generateCrud(): void
     {
+        // Check required packages
+        if (!function_exists('JsonResponse')) {
+            throw new \Exception('The \'sebk/swoft-json-response\' is required by CRUD generator');
+        }
+        if (!class_exists('\Sebk\SmallOrmForms\Form\FormModel')) {
+            throw new \Exception('The \'sebk/small-orm-forms\' is required by CRUD generator');
+        }
+
+        // Get parameters
         $bundle = input()->getOption('bundle', null);
         $model = input()->getOption('model', null);
 

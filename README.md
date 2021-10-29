@@ -17,6 +17,13 @@ Require the package with composer:
 composer require sebk/small-orm-swoft
 ```
 
+To use CRUD generator, you must require sebk/swoft-json-response and sebk/small-orm-forms :
+```
+composer require sebk/swoft-json-response
+composer require sebk/small-orm-forms
+```
+
+
 ## Documentation
 
 See [documentation]: https://small-iceberg.dev/index.php/Small-orm-swoft
