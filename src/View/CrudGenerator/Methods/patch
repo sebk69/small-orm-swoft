@@ -1,0 +1,49 @@
+    /**
+     * @RequestMapping ("{id}", method={RequestMethod::POST})
+     * @param int $id
+     * @param Request $request
+     * @return \Swoft\Http\Message\Response|\Swoft\Rpc\Server\Response|\Swoft\Task\Response
+     * @throws DaoEmptyException
+     * @throws \Sebk\SmallOrmForms\Form\FieldException
+     * @throws \Sebk\SmallOrmForms\Form\FieldNotFoundException
+     * @throws \Sebk\SmallOrmForms\Type\TypeNotFoundException
+     */
+    public function patch<?php echo $modelName; ?>(int $id, Request $request)
+    {
+        // Load model
+        try {
+            /** @var <?php echo $modelName; ?> $model */
+            $model = $this->daoFactory->get('<?php echo $bundleName; ?>', '<?php echo $modelName; ?>')->findOneBy(['<?php echo $idField; ?>' => $id]);
+        } catch (DaoEmptyException $e) {
+            // Not found
+            return JsonResponse('')
+                ->withStatus(Status::NOT_FOUND)
+            ;
+        }
+
+        // Init data
+        $data = json_decode($request->getParsedBody(), true);
+        if (isset($data['<?php echo $idField; ?>'])) {
+            unset($data['<?php echo $idField; ?>']);
+        }
+
+        // Form validation
+        $form = $this->createForm()
+            ->fillFromModel($model)
+            ->fillFromArray($data)
+        ;
+        $messages = $form->validate();
+        $model = $form->fillModel();
+
+        if (count($messages) > 0) {
+            // Validation failed
+            return JsonResponse($messages)
+                ->withStatus(Status::BAD_REQUEST)
+            ;
+        }
+
+        // Persist
+        $model->persist();
+
+        return JsonResponse($model);
+    }

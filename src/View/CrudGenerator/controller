@@ -1,0 +1,28 @@
+namespace App\Http\Controller;
+
+use <?php echo $fullModelClass; ?>;
+use Sebk\SmallOrmCore\Dao\DaoEmptyException;
+use Sebk\SmallOrmForms\Form\FormModel;
+use Sebk\SmallOrmSwoft\Traits\Injection\DaoFactory;
+use Swoft\Http\Message\Request;
+use Swoft\Http\Server\Annotation\Mapping\Controller;
+use Swoft\Http\Server\Annotation\Mapping\RequestMapping;
+use Swoft\Http\Server\Annotation\Mapping\RequestMethod;
+use Swoole\Http\Status;
+
+/**
+ * @Controller("<?php echo lcfirst($modelName); ?>")
+ */
+class <?php echo $modelName; ?>Controller
+{
+    use DaoFactory;
+
+<?php include __DIR__ . "/Methods/createForm" ?>
+
+<?php include __DIR__ . "/Methods/get" ?>
+
+<?php include __DIR__ . "/Methods/create" ?>
+
+<?php include __DIR__ . "/Methods/patch" ?>
+
+}

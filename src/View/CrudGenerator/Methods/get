@@ -1,0 +1,20 @@
+    /**
+     * @RequestMapping ("{id}", method={RequestMethod::GET})
+     * @param int $id
+     * @return \Swoft\Http\Message\Response|\Swoft\Rpc\Server\Response|\Swoft\Task\Response
+     */
+    public function get<?php echo $modelName; ?>(int $id)
+    {
+        // Load model
+        try {
+            /** @var <?php echo $modelName; ?> $model */
+            $model = $this->daoFactory->get('<?php echo $bundleName; ?>', '<?php echo $modelName; ?>')->findOneBy(['<?php echo $idField; ?>' => $id]);
+        } catch (DaoEmptyException $e) {
+            // Not found
+            return JsonResponse('')
+                ->withStatus(Status::NOT_FOUND)
+            ;
+        }
+
+        return JsonResponse($model);
+    }
