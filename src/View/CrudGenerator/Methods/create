@@ -8,7 +8,7 @@
     {
         // Form validation
         $form = $this->createForm()
-            ->fillFromArray(json_decode($request->getParsedBody(), true));
+            ->fillFromArray($request->getParsedBody());
         $messages = $form->validate();
         if (count($messages) > 0) {
             // Validation failed

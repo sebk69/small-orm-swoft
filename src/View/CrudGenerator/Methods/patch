@@ -22,7 +22,7 @@
         }
 
         // Init data
-        $data = json_decode($request->getParsedBody(), true);
+        $data = $request->getParsedBody();
         if (isset($data['<?php echo $idField; ?>'])) {
             unset($data['<?php echo $idField; ?>']);
         }
