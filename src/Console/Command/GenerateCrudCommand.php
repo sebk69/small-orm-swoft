@@ -41,8 +41,11 @@ class GenerateCrudCommand
         }
 
         // Get parameters
+        $connection = input()->getOption('connection', "default");
         $bundle = input()->getOption('bundle', null);
         $model = input()->getOption('model', null);
+        $template = input()->getOption('template', "default");
+        $baseRoute = input()->getOption('base-route', "");
 
         if ($bundle == null) {
             output()->writeln('--bundle option is mandatory');
@@ -66,13 +69,13 @@ class GenerateCrudCommand
         }
 
         // Get full model class
-        $fullModelClass = $this->daoFactory->getModelNamespace("default", $bundle) . "\\" . $model;
+        $fullModelClass = $this->daoFactory->getModelNamespace($connection, $bundle) . "\\" . $model;
 
         // Get filepath
-        $filePath = config("sebk_small_orm.crudBasePath") . $model . "Controller.php";
+        $filePath = config('sebk_small_orm.crudBasePath') . $model . 'Controller.php';
 
         // Generate controller
-        $this->generateFile($filePath, $bundle, $model, $idField, $fullModelClass);
+        $this->generateFile($filePath, $template, $bundle, $model, $idField, $fullModelClass, $baseRoute);
     }
 
     /**
@@ -83,10 +86,14 @@ class GenerateCrudCommand
      * @param $idField
      * @param $fullModelClass
      */
-    private function generateFile($filePath, $bundleName, $modelName, $idField, $fullModelClass)
+    private function generateFile($filePath, $template, $bundleName, $modelName, $idField, $fullModelClass, $baseRoute)
     {
+        if (empty($baseRoute)) {
+            $baseRoute = lcfirst($modelName);
+        }
+
         ob_start();
-        include __DIR__ . '/../../View/CrudGenerator/controller';
+        include __DIR__ . '/../../View/CrudGenerator/' .  ucfirst($template) . '/controller';
         $content = "<?php\n" . ob_get_contents();
         ob_end_clean();
 

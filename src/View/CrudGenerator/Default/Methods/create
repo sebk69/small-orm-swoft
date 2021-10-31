@@ -1,0 +1,23 @@
+    /**
+     * @RequestMapping ("", method={"POST"})
+     * @param Request $request
+     * @return \Swoft\Http\Message\Response
+     * @throws \Exception
+     */
+    public function create<?php echo $modelName; ?>(Request $request)
+    {
+        // Form validation
+        $form = $this->createForm()
+            ->fillFromArray($request->getParsedBody());
+        $messages = $form->validate();
+        if (count($messages) > 0) {
+            // Validation failed
+            return JsonResponse($messages)
+                ->withStatus(Status::BAD_REQUEST);
+        }
+
+        // Persist
+        $model = $form->fillModel()->persist();
+
+        return JsonResponse($model);
+    }

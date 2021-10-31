@@ -1,11 +1,14 @@
     /**
-     * @RequestMapping ("", method={RequestMethod::POST})
+     * @RequestMapping ("", method={"POST"})
      * @param Request $request
      * @return \Swoft\Http\Message\Response
      * @throws \Exception
      */
     public function create<?php echo $modelName; ?>(Request $request)
     {
+        // Check user rights
+        $this->denyAccessUnlessGranted(VoterInterface::ATTRIBUTE_WRITE, $this);
+
         // Form validation
         $form = $this->createForm()
             ->fillFromArray($request->getParsedBody());

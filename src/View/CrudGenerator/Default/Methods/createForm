@@ -1,0 +1,12 @@
+    /**
+     * Create form for <?php echo $modelName."\n"; ?>
+     * @return FormModel
+     * @throws \Sebk\SmallOrmForms\Form\FieldException
+     * @throws \Sebk\SmallOrmForms\Type\TypeNotFoundException
+     */
+    protected function createForm(): FormModel
+    {
+        return (new FormModel())
+            ->buildFromDao($this->daoFactory->get('<?php echo $bundleName; ?>', '<?php echo $modelName; ?>'))
+        ;
+    }

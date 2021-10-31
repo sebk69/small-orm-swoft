@@ -1,28 +1,46 @@
 namespace App\Http\Controller;
 
 use <?php echo $fullModelClass; ?>;
+
+use Sebk\SmallSwoftAuth\Controller\TokenSecuredController;
+
 use Sebk\SmallOrmCore\Dao\DaoEmptyException;
 use Sebk\SmallOrmForms\Form\FormModel;
 use Sebk\SmallOrmSwoft\Traits\Injection\DaoFactory;
+use Sebk\SwoftVoter\VoterManager\VoterInterface;
+
 use Swoft\Http\Message\Request;
 use Swoft\Http\Server\Annotation\Mapping\Controller;
 use Swoft\Http\Server\Annotation\Mapping\RequestMapping;
 use Swoft\Http\Server\Annotation\Mapping\RequestMethod;
+use Swoft\Http\Server\Annotation\Mapping\Middleware;
+use Swoft\Http\Server\Annotation\Mapping\Middlewares;
+
+use Swoft\Auth\Middleware\AuthMiddleware;
+
 use Swoole\Http\Status;
 
 /**
- * @Controller("<?php echo lcfirst($modelName); ?>")
+ * @Controller("<?php echo $baseRoute; ?>")
+ * @Middlewares ({AuthMiddleware::class})
+ * @Middleware (AuthMiddleware::class)
  */
-class <?php echo $modelName; ?>Controller
+class <?php echo $modelName; ?>Controller extends TokenSecuredController
 {
     use DaoFactory;
 
 <?php include __DIR__ . "/Methods/createForm" ?>
 
+
 <?php include __DIR__ . "/Methods/get" ?>
+
 
 <?php include __DIR__ . "/Methods/create" ?>
 
+
 <?php include __DIR__ . "/Methods/patch" ?>
+
+
+<?php include __DIR__ . "/Methods/delete" ?>
 
 }

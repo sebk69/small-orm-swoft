@@ -1,10 +1,13 @@
     /**
-     * @RequestMapping ("{id}", method={RequestMethod::GET})
+     * @RequestMapping ("{id}", method={"DELETE"})
      * @param int $id
-     * @return \Swoft\Http\Message\Response|\Swoft\Rpc\Server\Response|\Swoft\Task\Response
+     * @return \Swoft\Http\Message\Response
      */
-    public function get<?php echo $modelName; ?>(int $id)
+    public function delete<?php echo $modelName; ?>(int $id)
     {
+        // Check user rights
+        $this->denyAccessUnlessGranted(VoterInterface::ATTRIBUTE_DELETE, $this);
+
         // Load model
         try {
             /** @var <?php echo $modelName; ?> $model */
@@ -16,5 +19,8 @@
             ;
         }
 
-        return JsonResponse($model);
+        // Persist
+        $model->delete();
+
+        return JsonResponse("");
     }

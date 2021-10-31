@@ -1,15 +1,17 @@
     /**
-     * @RequestMapping ("{id}", method={RequestMethod::POST})
+     * @RequestMapping ("{id}", method={"POST"})
      * @param int $id
      * @param Request $request
-     * @return \Swoft\Http\Message\Response|\Swoft\Rpc\Server\Response|\Swoft\Task\Response
-     * @throws DaoEmptyException
+     * @return \Swoft\Http\Message\Response
      * @throws \Sebk\SmallOrmForms\Form\FieldException
      * @throws \Sebk\SmallOrmForms\Form\FieldNotFoundException
      * @throws \Sebk\SmallOrmForms\Type\TypeNotFoundException
      */
     public function patch<?php echo $modelName; ?>(int $id, Request $request)
     {
+        // Check user rights
+        $this->denyAccessUnlessGranted(VoterInterface::ATTRIBUTE_UPDATE, $this);
+
         // Load model
         try {
             /** @var <?php echo $modelName; ?> $model */
