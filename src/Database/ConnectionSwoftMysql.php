@@ -74,11 +74,9 @@ class ConnectionSwoftMysql extends AbstractConnection
      * @throws ConnectionException
      * @throws TransactionException
      */
-    public function startTransaction()
+    public function startTransaction($connection = null)
     {
-        $connexion = $this->connect();
-
-        $this->execute("START TRANSACTION", null, null, $connexion);
+        $this->execute("START TRANSACTION", null, null, $connection);
 
         return $this;
     }
@@ -91,7 +89,7 @@ class ConnectionSwoftMysql extends AbstractConnection
      */
     public function commit($connection = null)
     {
-        $this->execute("COMMIT", null, null, $connexion);
+        $this->execute("COMMIT", null, null, $connection);
 
         return $this;
     }
@@ -104,7 +102,7 @@ class ConnectionSwoftMysql extends AbstractConnection
      */
     public function rollback($connection = null)
     {
-        $this->execute("ROLLBACK", null, null, $connexion);
+        $this->execute("ROLLBACK", null, null, $connection);
 
         return $this;
     }

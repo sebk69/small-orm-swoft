@@ -25,7 +25,7 @@ use function output;
 class MethodsBlocCommentCommand
 {
     /**
-     * @CommandMapping("add-methods-bloc-comment")
+     * @CommandMapping("generate:model-autocompletion")
      */
     public function addMethodsBlocComment(): void
     {
