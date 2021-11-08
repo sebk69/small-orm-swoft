@@ -26,4 +26,4 @@ composer require sebk/small-orm-forms
 
 ## Documentation
 
-See [documentation]: https://small-iceberg.dev/index.php/Small-orm-swoft
+See [documentation](https://github.com/sebk69/small-orm-doc)
